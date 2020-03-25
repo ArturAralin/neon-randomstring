@@ -18,10 +18,9 @@ fn get_options(cx: &mut FunctionContext) -> Result<GenOptions, neon::result::Thr
         let alphabet = charset::match_charset(&cx.argument::<JsString>(1)?.value());
 
         if alphabet == charset::Alphabet::CUSTOM {
-            let x = cx.argument::<JsString>(2)?.value();
-            let x = &x[..];
+            let slice = &cx.argument::<JsString>(2)?.value()[..];
             UnicodeSegmentation
-                ::graphemes(x, true)
+                ::graphemes(slice, true)
                 .map(|v| v.to_string())
                 .collect::<Vec<String>>()
         } else {
