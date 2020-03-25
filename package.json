@@ -1,0 +1,15 @@
+{
+  "name": "rs",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "author": "Artur Aralin <artur.aralin97@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "neon-cli": "^0.3.3",
+    "randomstring": "^1.1.5"
+  },
+  "scripts": {
+    "install": "neon build"
+  }
+}

@@ -1,0 +1,19 @@
+[package]
+name = "randomstring"
+version = "0.1.0"
+authors = ["Artur Aralin <artur.aralin97@gmail.com>"]
+license = "MIT"
+build = "build.rs"
+exclude = ["artifacts.json", "index.node"]
+
+[lib]
+name = "randomstring"
+crate-type = ["cdylib"]
+
+[build-dependencies]
+neon-build = "0.3.3"
+
+[dependencies]
+neon = "0.3.3"
+rand = "0.7.3"
+unicode-segmentation = "1.6.0"
