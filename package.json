@@ -9,6 +9,10 @@
     "lib",
     "native/index.node"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArturAralin/neon-randomstring.git"
+  },
   "devDependencies": {
     "randomstring": "^1.1.5"
   },
