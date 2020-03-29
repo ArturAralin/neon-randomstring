@@ -1,64 +1,40 @@
 extern crate neon;
 extern crate rand;
-extern crate unicode_segmentation;
-mod charset;
 
 use neon::prelude::*;
-use unicode_segmentation::UnicodeSegmentation;
+use rand::Rng;
 
 #[derive(Debug)]
 struct GenOptions {
-    length: u32,
-    charset: Vec<String>
+    length: usize,
+    charset: String
 }
 
 fn get_options(cx: &mut FunctionContext) -> Result<GenOptions, neon::result::Throw> {
-    let length = cx.argument::<JsNumber>(0)?.value() as u32;
-    let charset = {
-        let alphabet = charset::match_charset(&cx.argument::<JsString>(1)?.value());
-
-        if alphabet == charset::Alphabet::CUSTOM {
-            let slice = &cx.argument::<JsString>(2)?.value()[..];
-            UnicodeSegmentation
-                ::graphemes(slice, true)
-                .map(|v| v.to_string())
-                .collect::<Vec<String>>()
-        } else {
-            charset::get_letters(alphabet)
-        }
-    };
+    let length = cx.argument::<JsNumber>(0)?.value() as usize;
+    let charset = cx.argument::<JsString>(1)?.value();
 
     Ok(GenOptions {
         length,
-        charset: charset,
+        charset,
     })
 }
 
-fn gen_random_string(mut cx: FunctionContext) -> JsResult<JsBuffer> {
-    let o = get_options(&mut cx)?;
-    let graphemes = o.charset;
-    let charset_len = graphemes.len() as u8;
+fn gen_random_string(mut cx: FunctionContext) -> JsResult<JsString> {
+    let opts = get_options(&mut cx)?;
 
-    let len = o.length;
-    let buf_len = o.length * 2;
-    let mut buf = cx.buffer(buf_len as u32)?;
+    let charset = opts.charset.chars().collect::<Vec<char>>();
+    let charset_len = charset.len();
 
-    cx.borrow_mut(&mut buf, |b| {
-        let slice = b.as_mut_slice::<u8>();
-        let mut i: usize = 0;
+    let mut rng = rand::thread_rng();
+    let result = (0..charset_len)
+        .map(|_| {
+            let idx = rng.gen_range(0, charset_len);
+            charset[idx]
+        })
+        .collect::<String>();
 
-        for _ in 0..len {
-            let idx = rand::random::<u8>() % charset_len;
-            let r = graphemes[idx as usize].as_bytes();
-
-            for byte in r.iter() {
-                slice[i] = *byte;
-                i += 1;
-            };
-        };
-    });
-
-    Ok(buf)
+    Ok(cx.string(result))
 }
 
 register_module!(mut cx, {
