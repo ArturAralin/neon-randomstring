@@ -1,7 +1,7 @@
 {
   "name": "neon-",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Fast alternative for randomstring library",
   "main": "lib/index.js",
   "author": "Artur Aralin <artur.aralin97@gmail.com>",
   "license": "MIT",
@@ -14,6 +14,9 @@
     "url": "git+https://github.com/ArturAralin/neon-randomstring.git"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
     "randomstring": "^1.1.5"
   },
   "scripts": {
