@@ -1,5 +1,5 @@
 {
-  "name": "neon-",
+  "name": "neon-randomstring",
   "version": "0.0.1",
   "description": "Fast alternative for randomstring library",
   "main": "lib/index.js",
@@ -20,7 +20,7 @@
     "randomstring": "^1.1.5"
   },
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build=false || neon build --release",
+    "install": "node_modules/node-pre-gyp/bin/node-pre-gyp install --fallback-to-build=false || neon build",
     "package": "node-pre-gyp package",
     "upload-binary": "NODE_ENV=production npm i && node-pre-gyp package && node-pre-gyp-github publish"
   },
